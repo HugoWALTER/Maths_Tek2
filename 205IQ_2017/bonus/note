@@ -1,0 +1,1 @@
+make re && ./205IQ 100 24 > data && cat bonus.gnu | gnuplot && firefox image.png

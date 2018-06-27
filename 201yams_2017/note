@@ -1,0 +1,42 @@
+pour le bonus :
+
+Il y a 10 lancé au bout des 10 lancés on arrete / reset pour avoir le tapis.
+un texte score
+int to string a faire ex: score: 10
+brelan: (total des 3 des)
+carré (total des 4 des)
+full (25 pts)
+petite suite(30 pts)
+grande suite (40 pts)
+yams (50 pts)
+
+si score > 63 pts on ajoute 35 pts
+le plus de pts au bout des 10 coups gagne
+
+ALORS IL A LE DROIT A 3 JETS DE DES PAR TOUR
+
+DE1      DE2      DE3      DE4      DE5
+
+(bouton relaunch)
+(bouton garder)
+
+LAUNCH                    EXIT
+
+Lancer le jeu sur le PC du pote comparer le score a la fin
+
+trouver une autre police pour le texte
+
+SI IL APPUIE SUR RETRY NE PAS ADDITIONER AU SCORE SEULEMNENT AU NIVEAU DU BOUTON KEEP
+
+SI IL APPUIE SUR RETRY FAIRE UN COMPTEUR TENTATIVE
+
+SI IL APPUIE SUR LAUNCH CA SAVE SON SCORE ET ÇA L'ADDITIONNE
+
+RETRY SCORE DU LANCER = 0
+
+BUG BONUS:
+
+while (sfMusic_getStatus(ms->play->taverne) != sfStopped);
+ensuite on fait le fade
+
+methode par dénombrement

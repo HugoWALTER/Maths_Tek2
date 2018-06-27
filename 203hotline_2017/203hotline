@@ -1,0 +1,92 @@
+#!/usr/bin/env python3
+
+import  sys
+import  time
+from math import *
+
+def display_binomial(d):
+    i = 0
+    p = d / (3600 * 8)
+    n = 3500
+    overload = 0
+    begin = time.time()
+    print("Binomial distribution:")
+    while (i <= 50):
+        if ((i % 6) != (0)):
+            print("\t", end='')
+        a = (binomial(n, i)) * (p**i) * ((1 - p)**(n - i))
+        if (i < 26):
+            overload += a
+        print("%d -> %0.3f" %(i, a), end='')
+        if ((i == 5) or (i == 11) or (i == 17) or (i == 23) or (i == 29) or (i == 35) or (i == 41) or (i == 47)):
+            print("")
+        i += 1
+    print("")
+    end = time.time()
+    print("overload: {0:.1f}%".format(100 - (overload * 100)))
+    print("computation time: %0.2f ms" %((end - begin) * 1000))
+
+def display_poisson(d):
+    i = 0
+    l = 3500 * (d / (3600 * 8))
+    overload = 0
+    begin = time.time()
+    print("Poisson distribution:")
+    while (i <= 50):
+        if ((i % 6) != (0)):
+            print("\t", end='')
+        a = exp(-l) * pow(l, i) / factorial(i)
+        if (i < 26):
+            overload += a
+        print("%d -> %0.3f" %(i, a), end='')
+        if ((i == 5) or (i == 11) or (i == 17) or (i == 23) or (i == 29) or (i == 35) or (i == 41) or (i == 47)):
+            print("")
+        i += 1
+    print("")
+    end = time.time()
+    print("overload: {0:.1f}%".format(100 - (overload * 100)))
+    print("computation time: %0.2f ms" %((end - begin) * 1000))
+
+def binomial(n, k):
+    res = factorial(n) // (factorial(k) * factorial(n - k))
+    return (res)
+
+def binomial_and_poisson(d):
+    display_binomial(d)
+    print('')
+    display_poisson(d)
+
+def combination(n, k):
+    print("%d-combination of a %d set:\n%d" %(k, n, binomial(n, k)))
+
+if (len(sys.argv) > 3 or len(sys.argv) < 2):
+    print ("Error: Number of arguments must be 2 or 3 (see -h)")
+    exit(84)
+if (len(sys.argv) == 2 and sys.argv[1] == "-h"):
+            print("USAGE\n\t./203hotline [n k | d]\n\nDESCRIPTION\n\tn\tn value for the computation of (n k)\n\tk\tk value for the computation of (n k)\n\td\taverage duration of calls (in seconds)")
+            exit(84)
+if(len(sys.argv) == 2):
+    try:
+        d = int(sys.argv[1])
+    except:
+        print("Error: Bad arguments")
+        exit(84)
+    if (d <= 0):
+        print("d must be positive")
+        exit(84)
+    binomial_and_poisson(d)
+if(len(sys.argv) == 3):
+    try:
+            n = int(sys.argv[1])
+            k = int(sys.argv[2])
+    except:
+        print("Error: n or k is and unvalid parameter")
+        exit(84)
+    if (k > n):
+        print("Error: k must be lower than n")
+        exit(84)
+    if (k <= 0 or n <= 0):
+        print("Error: n or k must be positive")
+        exit(84)
+    combination(n, k)
+    exit(0)

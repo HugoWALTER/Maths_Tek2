@@ -1,0 +1,294 @@
+#!/usr/bin/env python3
+
+import  sys
+import  re
+from math import *
+
+def             check_file():
+    try:
+        fd = open("207demography_data.csv", "r")
+    except:
+        print("Error: The file can't be opened !")
+        exit(84)
+    return (fd)
+
+def             check_flag_in_list(liste, flag):
+    if (flag == 0):
+        print("Error: The or one of the flag doesn't exist!")
+        exit(84)
+    if (not liste):
+        print("Error: The flag doesn't exist !")
+        exit(84)
+
+def             open_and_parse_file(ac, av):
+    fd = check_file()
+    i = 1
+    liste = []
+    country_flag = 0
+    res = 0
+
+    for i in range(i, ac):
+        fd.seek(0)
+        country_flag = 0
+        for line in fd.readlines():
+            res = re.sub(",", ".", line)
+            res = res.split(";")
+            if (av[i] == res[1]):
+                country_flag = 1
+                liste.append(res)
+        check_flag_in_list(liste, country_flag)
+        i += 1
+    check_flag_in_list(liste, country_flag)
+    return (liste)
+
+def standard_deviation(esp, a, t):
+    res = 0
+    x = 2
+    res = pow((t - esp), 2) * (5 * 2 * t / 10)
+
+def pop_generate_f1(a, t):
+    i = 0
+    res = 0
+    while (i < (t * 10)):
+        res += (a)
+        i += 1
+    return (res / 10)
+
+def pop_generate_f2(a, t):
+    i = 0
+    res = 0
+    while (i < (t * 10)):
+        res += (a)
+        i += 1
+    return (res / 10)
+
+def             display_country(liste):
+    i = 0
+
+    print("country:", end='')
+    for i in range(i, len(liste)):
+        if (i == 0):
+            print("", liste[i][0], end='')
+        else:
+            print(",", liste[i][0], end='')
+        i += 1
+    print("")
+
+def             verif_country(new_list):
+    i = 0
+    value = 0
+    for i in range(i, 50):
+        value += new_list[i]
+        i += 1
+    if (value == 0):
+        print("Error: All values equals to 0")
+        exit(84)
+
+def             update_list_with_country(liste):
+    i = 2
+    new_list = []
+    get_year = 0
+
+    for i in range(i, 53):
+        get_year = 0
+        j = 0
+        for j in range(j, len(liste)):
+            try:
+                if liste[j][i] != "":
+                    get_year += float(liste[j][i])
+            except:
+                get_year += 0
+            j += 1
+        new_list.append(get_year)
+        i += 1
+    verif_country(new_list)
+    return (new_list)
+
+def             fill_liste(liste):
+        i = 0
+        k = 0
+        min_year = 1961
+        max_year = 2050
+        year_list = []
+        j = 0;
+
+        for  i in range(i, max_year):
+            year_list.append(min_year)
+            k += (min_year * max_year) / 2
+            j += 1
+            i += 1
+        return k
+
+def             calc_fit1(liste):
+    i = 0
+    min_year = 1961
+    fill_year = []
+    fill_pop = []
+    moy_year = 0
+    moy_pop = 0
+    num_equation_ax = 0
+    denum_equation_ax = 0
+    j = 0
+    res_k = 0
+    res_fit1 = 0
+
+    for min_year in range(min_year, 2012):
+        fill_year.append(min_year)
+        fill_pop.append(float(liste[i]) / pow(10, 6))
+        num_equation_ax = num_equation_ax + (min_year * (float(liste[i]) / pow(10, 6)))
+        denum_equation_ax = denum_equation_ax + pow(min_year, 2)
+        moy_year = moy_year + min_year
+        moy_pop = moy_pop + (float(liste[i]) / pow(10,6))
+        res_fit1 += sd_f1((moy_pop / 2), 89)
+        j += 1
+        min_year += 1
+        i += 1
+    moy_year = moy_year / len(liste)
+    moy_pop = moy_pop / len(liste)
+    num_equation_ax = num_equation_ax - (len(liste) * moy_year * moy_pop)
+    denum_equation_ax = denum_equation_ax - (len(liste) * pow(moy_year, 2))
+    res_k = fill_liste(liste)
+    res_fit1 = min_year + i * 89
+    return moy_year, moy_pop, num_equation_ax, denum_equation_ax, fill_year, fill_pop
+
+def             equation_fit1(liste, moy_year, moy_pop, num_equation_ax, denum_equation_ax):
+    i = 0
+    min_year = 1961
+    ax = 0
+    ay = 0
+    bx = 0
+    by = 0
+    num_equation_ay = 0
+    denum_equation_ay = 0
+    j = 0;
+    k = 0;
+    denum_sd_f1 = 0
+
+    for min_year in range(min_year, 2012):
+        num_equation_ay = num_equation_ay + ((min_year - moy_year) * ((float(liste[i]) / pow(10, 6)) - moy_pop))
+        denum_equation_ay = denum_equation_ay + (pow(((float(liste[i]) / pow(10, 6)) - moy_pop), 2))
+        min_year += 1
+        j += 1
+        k += 1
+        i += 1
+    ax = num_equation_ax / denum_equation_ax
+    bx = moy_pop - ax * moy_year
+    denum_sd_f1 = standard_deviation(ax, bx, 89)
+    return num_equation_ay, denum_equation_ay, moy_year, moy_pop, ax, bx, ay, by
+
+def             calc_fit2(ax, bx, ay, by):
+    i = 0
+    min_year = 1961
+    fit1_pop_2050 = []
+    fit2_pop_2050 = []
+    res_fit1 = 0
+    res_fit2 = 0
+    j = 0
+    k = 0
+    denum_sd_f2 = 0
+    res = 0
+
+    for min_year in range(min_year, 2051):
+        res_fit1 = ax * min_year + bx
+        res_fit2 = (min_year - by) / ay
+        fit1_pop_2050.append(res_fit1)
+        fit2_pop_2050.append(res_fit2)
+        denum_sd_f2 = standard_deviation(1961, 2050, 89)
+        j += 1
+        k += 1
+        min_year += 1
+        i += 1
+    res = (89 + 1961)
+    return ax, bx, ay, by, fit1_pop_2050, fit2_pop_2050
+
+def sd_f2(a, t):
+    res = 0
+    res = a * exp(-t) + (4 - 3 * a) * exp(-2 * t) + (2 * a - 4) * exp(-4 * t)
+    return (res)
+
+def sd_f1(a, p):
+    i = 0.0
+    res = 0.0
+    while (i <= (p * 1000)):
+        res += sd_f2(a, i / 100)
+        if (res >= p):
+            return (i / 100)
+        i += 1
+
+def             calc_sd_fit1(liste, ax, bx):
+    i = 0
+    min_year = 1961
+    ecart_tmp = 0
+    tmp = 0
+    sd_fit1 = 0
+    standard_f1 = 0
+    sd_k = 0;
+
+    for min_year in range(min_year, 2012):
+        tmp = (float(liste[i]) / pow(10, 6)) - (ax * min_year + bx)
+        ecart_tmp = ecart_tmp + pow(tmp, 2)
+        min_year += 1
+        sd_k += 1
+        i += 1
+    sd_fit1 = sqrt(ecart_tmp / i)
+    standard_f1 = sd_f1(sd_k, min_year)
+    return sd_fit1
+
+def             calc_sd_fit2(liste, ay, by):
+    i = 0
+    min_year = 1961
+    ecart_tmp = 0
+    sd_fit2 = 0
+    tmp = 0
+    standart_f2 = 0;
+    sd_k = 0;
+
+    for min_year in range(min_year, 2012):
+        tmp = (float(liste[i]) / pow(10, 6)) - ((min_year - by) / ay)
+        ecart_tmp = ecart_tmp + pow(tmp, 2)
+        min_year += 1
+        sd_k += 1
+        i += 1
+    sd_fit2 = sqrt((ecart_tmp / (i)))
+    standart_f2 = sd_f2(sd_k, min_year)
+    return sd_fit2
+
+def             calc_list_by_year(liste):
+    correlation = 0
+    pop_gen_2050_f1 = 0;
+    pop_gen_2050_f2 = 0;
+
+    moy_year, moy_pop, num_equation_ax, denum_equation_ax, listYear, listPop = calc_fit1(liste)
+    num_equation_ay, denum_equation_ay, moy_year, moy_pop, ax, bx, ay, by = equation_fit1(liste, moy_year, moy_pop, num_equation_ax, denum_equation_ax)
+    ay = num_equation_ay / denum_equation_ay
+    by = moy_year - ay * moy_pop
+    pop_gen_2050_f1 = pop_generate_f1(by, 1961 - by)
+    pop_gen_2050_f2 = pop_generate_f2(by, 2050 - by)
+    ax, bx, ay, by, fit1_pop_2050, fit2_pop_2050 = calc_fit2(ax, bx, ay, by)
+    sd_fit1 = calc_sd_fit1(liste, ax, bx)
+    sd_fit2 = calc_sd_fit2(liste, ay, by)
+    correlation = sqrt(ax * ay)
+    min_year = 1961
+    i = 0
+
+    while (i < len(liste)):
+        print("%d %.1f" %(min_year, (int(liste[i]) / 1000000)))
+        min_year += 1
+        i += 1
+    print("%d %.1f" %(2050, float(fit1_pop_2050[89])))
+
+
+if (len(sys.argv) == 1):
+    print("Error: Please use at least one argument (see -h)")
+    exit(84)
+if (len(sys.argv) == 2 and sys.argv[1] == "-h"):
+    print("USAGE\n\t./207demography code1 [...]\nDESCRIPTION\n\tcode1\tcountry code")
+    exit(84)
+if (len(sys.argv) == 2 or len(sys.argv) > 2):
+    liste = 0
+
+    liste = open_and_parse_file(len(sys.argv), sys.argv)
+    liste = update_list_with_country(liste)
+    calc_list_by_year(liste)
+
+exit(0)

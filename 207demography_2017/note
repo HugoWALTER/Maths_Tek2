@@ -1,0 +1,14 @@
+addition des années suivant le nb d'années et d'habitants
+BRA BOL
+BRA année + BOL année
+BRA hab + BRA hab
+dans un tableau
+c'est des int
+50 valeur a stocker
+add char * a parser dans un double tableau
+calloc tableau
+BRA BOL PER
+BRA + BOL
+      BOL + PER  etc...
+
+toutes les pays avec nb habitant > 2011 ne pas les prendres en comptes
